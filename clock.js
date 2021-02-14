@@ -3,8 +3,8 @@ class ClockHand {
 
   constructor({ parent, angle, deltaAngle, id }) {
     this.parent = parent;
-    this.angle = angle;
-    this.deltaAngle = deltaAngle;
+    this.angle = angle; // deg
+    this.deltaAngle = deltaAngle; // deg/s
     this.id = id;
     this.append();
     this.rotate(angle);
@@ -18,19 +18,26 @@ class ClockHand {
     this.parent.appendChild(this.element);
   }
 
+  /**
+   * Atualiza o ângulo de rotação para o próximo valor, após ter passado 1 segundo.
+   */
   update() {
     this.angle += this.deltaAngle;
     this.rotate(this.angle);
   }
 
+  /**
+   * Aplica a transformação de rotação no elemento.
+   * @param {number} angle Ângulo para rotacionar (em graus)
+   */
   rotate(angle) {
     this.element.style.transform = `rotate(${angle}deg)`;
   }
 }
 
 class Clock {
-  static deltaDegHour = 360 / 12;
-  static deltaDegMinAndSec = 360 / 60;
+  static deltaDegHour = 360 / 12; // 30 deg
+  static deltaDegMinAndSec = 360 / 60; // 6 deg
 
   constructor(element) {
     this.element = element;
@@ -46,24 +53,27 @@ class Clock {
     const minuteAngle = Clock.deltaDegMinAndSec * minute + secondAngle / 60;
     const hourAngle = Clock.deltaDegHour * hour + minute / 2;
 
+    // Hora
     new ClockHand({
       parent: this.element,
       angle: hourAngle,
-      deltaAngle: Clock.deltaDegHour / 3600,
+      deltaAngle: Clock.deltaDegHour / 3600, // 0.0083 deg/s
       id: 'hour'
     });
 
+    // Minuto
     new ClockHand({
       parent: this.element,
       angle: minuteAngle,
-      deltaAngle: Clock.deltaDegMinAndSec / 60,
+      deltaAngle: Clock.deltaDegMinAndSec / 60, // 0.1 deg/s
       id: 'minute'
     });
 
+    // Segundo
     new ClockHand({
       parent: this.element,
       angle: secondAngle,
-      deltaAngle: Clock.deltaDegMinAndSec,
+      deltaAngle: Clock.deltaDegMinAndSec, // 6 deg/s
       id: 'second'
     });
   }
@@ -74,4 +84,4 @@ function render() {
   new Clock(clockElement);
 }
 
-render()
+render();
