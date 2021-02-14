@@ -36,6 +36,8 @@ class ClockHand {
 }
 
 class Clock {
+  static oneMinute = 60; // segundos
+  static oneHour = Clock.oneMinute * 60; // segundos
   static deltaDegHour = 360 / 12; // 30 deg
   static deltaDegMinAndSec = 360 / 60; // 6 deg
 
@@ -57,7 +59,7 @@ class Clock {
     new ClockHand({
       parent: this.element,
       angle: hourAngle,
-      deltaAngle: Clock.deltaDegHour / 3600, // 0.0083 deg/s
+      deltaAngle: Clock.deltaDegHour / Clock.oneHour, // 0.0083 deg/s
       id: 'hour'
     });
 
@@ -65,7 +67,7 @@ class Clock {
     new ClockHand({
       parent: this.element,
       angle: minuteAngle,
-      deltaAngle: Clock.deltaDegMinAndSec / 60, // 0.1 deg/s
+      deltaAngle: Clock.deltaDegMinAndSec / Clock.oneMinute, // 0.1 deg/s
       id: 'minute'
     });
 
